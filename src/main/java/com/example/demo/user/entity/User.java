@@ -1,6 +1,7 @@
 package com.example.demo.user.entity;
 
 import com.example.demo.group.entity.Group;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -15,12 +16,11 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;
-
     private String firstName;
     private String lastName;
     private String email;
 
-    @JsonIgnore
+    @JsonBackReference
     @ManyToMany(mappedBy = "assignedUsers")
-    private Set<Group> groups = new HashSet<>();
+    private Set<Group> groupSet = new HashSet<>();
 }

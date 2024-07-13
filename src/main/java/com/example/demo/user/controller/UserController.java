@@ -17,13 +17,19 @@ public class UserController {
     private UserService userService;
 
     @PostMapping
-    public ResponseEntity<User> saveUser(@RequestBody User user){
-        userService.saveUser(user);
+    public ResponseEntity<User> saveUser(@RequestBody User userObj){
+        userService.saveUser(userObj);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @GetMapping
-    public List<User> getAllUsers(){
-        return userService.getAllUsers();
+    @GetMapping(value = {"/getUsers", "/{userId}"})
+    public List<User> getUser(@PathVariable(required = false) Long userId){
+        return userService.getUserDetails(userId);
+    }
+
+    @DeleteMapping("/delete/{userId}")
+    public ResponseEntity<Void> removeUser(@PathVariable Long userId){
+        userService.deleteUser(userId);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }
